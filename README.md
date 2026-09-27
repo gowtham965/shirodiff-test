@@ -111,7 +111,7 @@ To show the fix for point 1 is practical, I built a small tool ([`tools/region-s
 | Verdict | 97.4% composite → **looks safe** | 🔴 **Needs review** |
 | Button | lost in the average | Region 2, severity **0.96**: colour change `#155dfc` → `#00a63e` |
 | Headline | lost in the average | Region 1, severity **0.52**: text change |
-| Cards that only moved | shown fully red | 🟠 minor (0.19–0.23) or ⚪ no meaningful change (0.06–0.07) |
+| Cards that only moved | shown fully red | 🟠 minor (0.19–0.23) or ✅ no meaningful change (0.06–0.07) |
 
 ![regions found in PR #1](docs/pr-1/region-score/annotated.png)
 
