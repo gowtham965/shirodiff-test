@@ -159,6 +159,24 @@ To show the fix for point 1 is practical, I built a small tool ([`tools/region-s
 
 Full output: [report.md](docs/pr-1/region-score/report.md). It runs in about 0.3 seconds on a 1440×900 pair and uses the same libraries as ShiroDiff (pixelmatch + pngjs), so it could slot in right after the existing comparison step. It doesn't yet tell "moved" apart from "changed"; that needs element positions from the page (step 4).
 
+### Two more test PRs
+
+To check it isn't tuned to a single case, I opened two more PRs: one harmless change and one real layout break.
+
+| PR | What changed | Should be | ShiroDiff today | Region scoring |
+|---|---|---|---|---|
+| [#1](https://github.com/gowtham965/shirodiff-test/pull/1) | Button colour, headline text, card spacing | Needs review | 97.38% → looks safe ❌ | 🔴 Needs review (0.96) ✅ |
+| [#2](https://github.com/gowtham965/shirodiff-test/pull/2) | Card borders one shade darker | Minor or none | ✅ No visual changes (99.91%) ✅ | ✅ No meaningful change ✅ |
+| [#3](https://github.com/gowtham965/shirodiff-test/pull/3) | Cards stack in one column instead of three (a broken layout) | Needs review | 96.93% → looks safe ❌ | 🔴 Needs review (0.53) ✅ |
+
+**PR #3 is the second real regression the whole-page score lets through.** Only 0.86% of pixels changed, because most of the page is white space, so the composite stays above 95% even though the layout is visibly broken.
+
+![regions found in PR #3](docs/pr-3/region-score/annotated.png)
+
+Region scoring gets the verdict right, but its explanation is messy: it reports seven scattered text regions and never says "the cards now stack in a column". That's the limit of working from pixels alone, and it's exactly what the element-level comparison (step 4) fixes: it would see three cards whose positions and widths changed.
+
+<sub>ShiroDiff doesn't store screenshots when it finds no change, so for PR #2 I took my own with Playwright at the same 1440×900 size. The whole-page composite on them (99.91%) matches ShiroDiff's report exactly. Outputs: [PR #2](docs/pr-2/region-score/report.md) · [PR #3](docs/pr-3/region-score/report.md).</sub>
+
 ---
 
 ## 6. How I can contribute, concretely
@@ -167,8 +185,8 @@ Until I have access to the code, I'd build each piece as a **standalone tool tha
 
 ### 1. Fix the score problem ✅ prototype done
 - **Done:** [`tools/region-score`](tools/region-score). On PR #1 it turns "97.4%, looks safe" into "needs review: the button changed colour".
-- **Next:** run it on more PRs so it isn't a one-off. One PR with a harmless change (a typo fix in small text) should come out as "minor", and one with a real break (a broken card layout) should come out as "needs review". Both results get added to the table in section 5, to show it catches real problems without raising false alarms.
-- **Effort:** about 1 hour.
+- **Done:** tested on two more PRs, one harmless and one broken layout (see section 5). It gets all three verdicts right, and it caught a second regression the whole-page score missed (PR #3).
+- **Next:** tune the thresholds on a larger set of real PRs, not hand-picked ones.
 
 ### 2. Say what changed, not just where
 - **Build:** `tools/element-diff`, a Playwright script that:
@@ -198,7 +216,7 @@ Until I have access to the code, I'd build each piece as a **standalone tool tha
 - **Effort:** 1–2 hours.
 
 ### Suggested order
-1. **Right away:** more PRs for #1 and bug reports for #5. Low effort, and useful straight away.
+1. **Right away:** bug reports for #5. Low effort, and useful straight away.
 2. **Next:** non-Next.js testing for #4, so we know which frameworks to support first.
 3. **First real projects:** #2 and #3 together. The element diff makes the AI summaries accurate, and the test set proves it. I'd share results and example PR comments with you before building anything bigger.
 

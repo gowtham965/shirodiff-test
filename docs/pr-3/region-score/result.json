@@ -1,0 +1,108 @@
+{
+  "width": 1440,
+  "height": 900,
+  "page": {
+    "pixelChange": 0.0086,
+    "pixelSim": 0.9955,
+    "ssim": 0.9408,
+    "composite": 0.9682
+  },
+  "regions": [
+    {
+      "id": 1,
+      "x": 232,
+      "y": 408,
+      "width": 976,
+      "height": 244,
+      "changedPixels": 8235,
+      "coverage": 0.03,
+      "meanDeltaE": 34.5,
+      "severity": 0.13,
+      "level": "minor",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 2,
+      "x": 592,
+      "y": 440,
+      "width": 123,
+      "height": 13,
+      "changedPixels": 455,
+      "coverage": 0.28,
+      "meanDeltaE": 84.8,
+      "severity": 0.53,
+      "level": "needs review",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 3,
+      "x": 926,
+      "y": 441,
+      "width": 234,
+      "height": 47,
+      "changedPixels": 868,
+      "coverage": 0.08,
+      "meanDeltaE": 68.2,
+      "severity": 0.28,
+      "level": "minor",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 4,
+      "x": 259,
+      "y": 574,
+      "width": 123,
+      "height": 13,
+      "changedPixels": 455,
+      "coverage": 0.28,
+      "meanDeltaE": 84.8,
+      "severity": 0.53,
+      "level": "needs review",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 5,
+      "x": 259,
+      "y": 608,
+      "width": 343,
+      "height": 14,
+      "changedPixels": 751,
+      "coverage": 0.16,
+      "meanDeltaE": 53.4,
+      "severity": 0.4,
+      "level": "needs review",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 6,
+      "x": 232,
+      "y": 676,
+      "width": 976,
+      "height": 110,
+      "changedPixels": 2947,
+      "coverage": 0.03,
+      "meanDeltaE": 26.8,
+      "severity": 0.09,
+      "level": "no meaningful change",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 7,
+      "x": 259,
+      "y": 709,
+      "width": 234,
+      "height": 47,
+      "changedPixels": 868,
+      "coverage": 0.08,
+      "meanDeltaE": 68.2,
+      "severity": 0.28,
+      "level": "minor",
+      "kind": "text or layout change"
+    }
+  ],
+  "verdict": {
+    "level": "needs review",
+    "worstRegion": 2,
+    "severity": 0.53
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "width": 1440,
+  "height": 900,
+  "page": {
+    "pixelChange": 0,
+    "pixelSim": 0.9999,
+    "ssim": 0.9982,
+    "composite": 0.9991
+  },
+  "regions": [],
+  "verdict": {
+    "level": "no meaningful change",
+    "worstRegion": null,
+    "severity": 0
+  }
+}
