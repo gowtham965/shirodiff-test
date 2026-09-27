@@ -222,6 +222,14 @@ Until I have access to the code, I'd build each piece as a **standalone tool tha
 
 ---
 
+## How I made this
+
+I used AI for this work: [Claude Code](https://claude.com/claude-code), an AI coding assistant. It helped me set up the test repo and PRs, reverse-engineer how ShiroDiff calculates its scores, write the region-score prototype and its tests, and draft this README. I decided what to test, installed ShiroDiff, directed each step and reviewed the results.
+
+The results themselves are real: every ShiroDiff report and score comes from actual runs of the app on the PRs linked above. The prototype's numbers come from running it on ShiroDiff's own screenshots (and on my own Playwright screenshots for PR #2, as noted in section 5). How ShiroDiff works internally (section 3) is my reading of its README and PR comments, since the code isn't public, and the AI summary costs in step 5 are estimates.
+
+---
+
 Thanks for reading. I'd love to help build this.
 
 **Gowtham Gowda** · [github.com/gowtham965](https://github.com/gowtham965)
