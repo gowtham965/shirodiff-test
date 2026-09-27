@@ -30,7 +30,7 @@ export default function Home() {
 
       <section id="features" className="grid gap-6 sm:grid-cols-3">
         {features.map((f) => (
-          <div key={f.title} className="rounded-xl border border-zinc-200 p-6">
+          <div key={f.title} className="rounded-xl border border-zinc-300 p-6">
             <h2 className="mb-2 text-lg font-semibold">{f.title}</h2>
             <p className="text-zinc-600">{f.body}</p>
           </div>
