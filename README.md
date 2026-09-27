@@ -112,14 +112,6 @@ A two-week prototype for steps 4 and 5, since that's where ShiroDiff can pull fu
 
 ---
 
-## 6. Questions for our call
-
-- How are the background jobs run today: a separate queue and workers, or tasks inside the web server? What happens to a PR if the server restarts mid-build?
-- What share of runs fail today, and what are the top reasons?
-- How do you get runs down to about 40 seconds: warm machines, caching, or something else?
-- Where do builds run today, and how are they isolated from each other?
-- Which part would you want someone to own first?
-
 Thanks for reading. I'd love to help build this.
 
 **Gowtham Gowda** · [github.com/gowtham965](https://github.com/gowtham965)
