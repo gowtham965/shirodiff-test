@@ -89,9 +89,51 @@ This addresses points 1 and 2 above.
 - Reduce false alarms: turn off animations, wait for fonts and network requests to finish, hide areas that always change (dates, ads, avatars), and let teams set their own thresholds.
 
 ### Step 5: AI change summaries, measured properly
-This is on your roadmap, and it's where my background fits best.
-- Give a vision model the before and after crops of each changed region, plus the element-level changes from step 4, so it describes real changes instead of guessing. For example: *"Get started button: blue → green. Headline reworded. Feature cards 16px further apart."*
-- **Build an evaluation set** from real PRs with human-written descriptions of what changed. Measure how many real changes the summary mentions and how many it makes up, so every prompt or model change is judged on data. An AI summary is only useful if reviewers trust it.
+This is on your roadmap, and it's where my background fits best. The goal is one line per change at the top of the PR comment, for example: *"Get started button: blue → green. Headline reworded. Feature cards 16px further apart."*
+
+**Where it fits:** after the regions are found (see the [prototype](#5-a-working-prototype-scoring-each-region)), make one call to a vision model:
+
+```
+screenshots → pixelmatch → changed regions + measured facts
+                                   │
+                                   ▼
+        top ~5 regions: before crop + after crop + facts → vision model
+                                   │
+                                   ▼
+        structured JSON: { overall, regions: [{ id, change, risk }] }
+                                   │
+                                   ▼
+                 summary lines added to the top of the PR comment
+```
+
+**Give the model facts, not just pictures.** Given only two full-page screenshots, a model has to guess what changed and will sometimes invent changes. Instead, send:
+- small **before and after crops** of each changed region. They're cheap, and the model can see the detail clearly.
+- the **measured facts** for each region: position, severity, kind, exact colours (`#155dfc → #00a63e`) and, after step 4, element-level changes such as "moved 16px right".
+- a strict instruction to describe only those regions.
+
+The model's job is then to turn measurements that can be trusted into plain English, not to find the changes itself.
+
+**Fixed output format.** The model returns JSON that must match a schema (an overall sentence, plus a change and a risk level per region). The comment builder can use it directly, and a malformed reply is caught instead of posted.
+
+**Rough cost per PR.** About 5 regions × 2 crops plus the facts comes to roughly 2,000–5,000 input tokens and about 300 output tokens. Using Claude models at current list prices as an example:
+
+| Model | Approx. per PR | Per 100k PRs |
+|---|---|---|
+| Claude Opus 5 | ~$0.02–0.035 | ~$2,000–3,500 |
+| Claude Sonnet 5 | ~$0.01 | ~$1,000 |
+| Claude Haiku 4.5 | ~$0.005 | ~$500 |
+
+Sending full screenshots instead of crops adds about 1,700 tokens per image. The model should be chosen on measured accuracy, not price alone, and a paid tier covers the cost.
+
+**Measure it, which is the part most tools skip.** An AI summary is only useful if reviewers trust it.
+1. Collect 20–30 real PRs and write down what actually changed in each.
+2. For each summary, check how many real changes it mentions and how many it invents.
+3. Compare crops versus full screenshots, different prompts and different models on the same set, and ship whichever wins.
+
+**Guardrails:**
+- If the AI call fails or times out, post the normal visual report without the summary. A PR should never be blocked because the model was down.
+- Summarise only regions above "minor", cap it at about 5 per PR, and skip PRs with no changes, to keep costs predictable.
+- Sending customer screenshots to an AI provider should be opt-in and stated on the security page. Many companies will ask about it.
 - Rate each change by how serious it is (layout break, style change, text change), so teams can auto-approve PRs that only have small changes.
 
 ### Step 6: Trust and growth
