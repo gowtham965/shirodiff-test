@@ -161,13 +161,46 @@ Full output: [report.md](docs/pr-1/region-score/report.md). It runs in about 0.3
 
 ---
 
-## 6. What I'd do first
+## 6. How I can contribute, concretely
 
-A two-week prototype for steps 4 and 5, since that's where ShiroDiff can pull furthest ahead of pixel-only tools:
-1. Collect 20–30 real PRs with visual changes and write down what actually changed in each one.
-2. Add an element-level comparison next to the current pixel diff.
-3. Generate AI summaries from both, and measure how many real changes they catch and how many they make up.
-4. Share the results and the example PR comments with you before building anything bigger.
+Until I have access to the code, I'd build each piece as a **standalone tool that works on what ShiroDiff already produces** (its screenshots on the `visualbot-assets` branch) or on my own Playwright screenshots, as the region-score prototype does. Then I'd show you the results and help plug it in.
+
+### 1. Fix the score problem ✅ prototype done
+- **Done:** [`tools/region-score`](tools/region-score). On PR #1 it turns "97.4%, looks safe" into "needs review: the button changed colour".
+- **Next:** run it on more PRs so it isn't a one-off. One PR with a harmless change (a typo fix in small text) should come out as "minor", and one with a real break (a broken card layout) should come out as "needs review". Both results get added to the table in section 5, to show it catches real problems without raising false alarms.
+- **Effort:** about 1 hour.
+
+### 2. Say what changed, not just where
+- **Build:** `tools/element-diff`, a Playwright script that:
+  1. starts the site at the old commit and the new one (the same `npm run dev` ShiroDiff uses),
+  2. records every visible element's position, size, text and key styles (background colour, text colour, font size),
+  3. matches elements across the two versions by their place in the page structure plus their text,
+  4. reports the differences: "button: background blue → green", "card 2: moved 16px right", "h1: text changed".
+- **Then:** feed its output into region-score, so a region that only moved is labelled "moved", not "changed".
+- **Effort:** a weekend.
+
+### 3. AI summaries, built the right way
+- **Build, in this order:**
+  1. **The test set first:** 15–20 PRs covering different kinds of change (colour, text, spacing, a layout break, a harmless change, nothing changed), each with the correct answer written down in `cases.json`.
+  2. **The summariser:** region crops plus the facts from 1 and 2, sent to a vision model, returning JSON (the design in step 5 of section 4).
+  3. **The scorer:** compare each summary against the correct answers, and count how many real changes it caught and how many it made up.
+- **Result to share:** a small table, e.g. "caught 18/20 real changes, invented 1", for two setups (crops only versus crops + facts) to prove the design choice with data.
+- **Effort:** about a week. A full run over 20 PRs costs well under $1 in model calls.
+
+### 4. Widen who can use it
+- **Test now:** run ShiroDiff on repos that aren't Next.js and record exactly what happens: a Vite app in a subfolder (e.g. `frontend/`), a plain Vite + React app at the root, and a monorepo with the app in `apps/web`. I'd write up what works, what fails, and the error message ShiroDiff shows.
+- **Fix, with code access:** detect the framework and the app's folder by reading `package.json` (`next`, `vite`, …) and looking in common subfolders, then pick the right start command.
+- **Effort:** 1–2 hours of testing. The fix itself needs the codebase.
+
+### 5. Help beyond code
+- **Bug reports:** file the issues from section 2 on the ShiroDiff repo: the "VisualBot" name, 1440×900 screenshots when the README promises full-page, and the composite passing a colour change (with the region-score results). Each report would say what I did, what happened, what I expected, and include a screenshot.
+- **Security page draft:** a one-page `SECURITY.md` covering what code is run, where it runs, what's stored and for how long, which permissions it needs and why, and how to uninstall.
+- **Effort:** 1–2 hours.
+
+### Suggested order
+1. **Right away:** more PRs for #1 and bug reports for #5. Low effort, and useful straight away.
+2. **Next:** non-Next.js testing for #4, so we know which frameworks to support first.
+3. **First real projects:** #2 and #3 together. The element diff makes the AI summaries accurate, and the test set proves it. I'd share results and example PR comments with you before building anything bigger.
 
 ---
 
