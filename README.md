@@ -24,10 +24,10 @@ I'm Gowtham, an engineer moving into AI engineering. Before our call I installed
 
 ## 2. What I found
 
-1. **The composite underrates small but important changes.** It averages two whole-page scores, so a 136×48 button or a broken grid is diluted by white space (PR #3 changed only 0.86% of pixels). SSIM also seems to work in greyscale, so a blue → green swap at similar brightness barely registers.
+1. **The composite underrates small but important changes.** It averages two whole-page scores, so a 136×48 button or a broken grid is diluted by white space (PR #3 changed only 0.86% of pixels).
 2. **Content past the shorter page is never compared.** ShiroDiff does take full-page screenshots (PR #5's "after" image is 1440×1454 and includes the new section), but the diff is cropped to the shorter screenshot ("Diffed at 1440×900"). So anything below the shorter page's height is ignored: PR #4 added a whole section at the bottom and scored 100%.
 3. **Moved looks the same as changed.** In PR #1 the cards only shifted, but the diff paints them fully red, and the old and new headline text overlap.
-4. **Trust.** It needs write access (for the `visualbot-assets` branch) and runs `npm install` on unknown code. Both will slow down adoption by companies.
+4. **Trust.** It needs write access to the repo (for the `visualbot-assets` branch), and its README says it runs `npm install` and `npm run dev` on the PR's code.
 5. **Small polish:** the comment is still signed "VisualBot".
 
 ---
@@ -47,10 +47,10 @@ Because it pads the shorter screenshot to the same height instead of cropping, i
 ## 4. How I'd help build and scale it
 
 1. **Better signal (prototype done):** tune region scoring on a larger set of real PRs, then weight important areas (buttons, headlines, above the fold) more heavily.
-2. **Say what changed, not just where:** use Playwright to record each element's position, size, text and styles in both versions, then report "button: blue → green" or "cards moved 16px", and tell a moved element apart from a changed one. *About a weekend.*
-3. **AI summaries, measured properly:** send a vision model the region crops *plus* the measured facts, so it describes real changes instead of guessing. Return fixed-format JSON. Build a test set of PRs with known answers first, and measure how many real changes it catches and how many it makes up. If the AI call fails, still post the normal report. *About a week.*
-4. **More repos:** detect Vite, Remix and monorepos (apps in `frontend/` or `apps/web`), and add an optional `.shirodiff.yml` for pages, env vars and logins, since most real apps won't start without them.
-5. **Reliable, cheaper runs:** a durable job queue (if it isn't one already), throwaway containers with time and CPU limits, GitHub pass/fail checks, cached dependencies, and screenshotting Vercel/Netlify preview links instead of building.
+2. **Say what changed, not just where:** use Playwright to record each element's position, size, text and styles in both versions, then report "button: blue → green" or "cards moved 16px", and tell a moved element apart from a changed one.
+3. **AI summaries, measured properly:** send a vision model the region crops *plus* the measured facts, so it describes real changes instead of guessing. Return fixed-format JSON. Build a test set of PRs with known answers first, and measure how many real changes it catches and how many it makes up. If the AI call fails, still post the normal report.
+4. **More repos:** detect Vite, Remix and monorepos (apps in `frontend/` or `apps/web`), and add an optional `.shirodiff.yml` for pages, env vars and logins.
+5. **Reliable, cheaper runs:** builds on a durable job queue, throwaway containers with time and CPU limits, GitHub pass/fail checks, cached dependencies, and screenshotting Vercel/Netlify preview links instead of building.
 6. **Trust and growth:** read-only access by storing screenshots on your side, a short security page, and a "Powered by ShiroDiff" link in every comment.
 
 **First steps:** file the issues above, test ShiroDiff on non-Next.js repos, then build 2 and 3 together, sharing the results with you before anything bigger.
