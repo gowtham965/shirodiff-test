@@ -1,0 +1,18 @@
+{
+  "name": "region-score",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prototype: score each changed region of a before/after screenshot pair instead of the whole page",
+  "type": "module",
+  "bin": {
+    "region-score": "cli.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node cli.mjs ../../docs/pr-1/before.png ../../docs/pr-1/after.png --out ../../docs/pr-1/region-score"
+  },
+  "dependencies": {
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0"
+  }
+}

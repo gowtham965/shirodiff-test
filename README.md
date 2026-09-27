@@ -102,7 +102,24 @@ This is on your roadmap, and it's where my background fits best.
 
 ---
 
-## 5. What I'd do first
+## 5. A working prototype: scoring each region
+
+To show the fix for point 1 is practical, I built a small tool ([`tools/region-score`](tools/region-score)) and ran it on the same before and after screenshots ShiroDiff produced for PR #1. It finds each separate changed area, scores each one on how much of it changed and how strongly its colours shifted, and lets the worst area decide.
+
+| | Today (whole page) | Region scoring |
+|---|---|---|
+| Verdict | 97.4% composite → **looks safe** | 🔴 **Needs review** |
+| Button | lost in the average | Region 2, severity **0.96**: colour change `#155dfc` → `#00a63e` |
+| Headline | lost in the average | Region 1, severity **0.52**: text change |
+| Cards that only moved | shown fully red | 🟠 minor (0.19–0.23) or ⚪ no meaningful change (0.06–0.07) |
+
+![regions found in PR #1](docs/pr-1/region-score/annotated.png)
+
+Full output: [report.md](docs/pr-1/region-score/report.md). It runs in about 0.3 seconds on a 1440×900 pair and uses the same libraries as ShiroDiff (pixelmatch + pngjs), so it could slot in right after the existing comparison step. It doesn't yet tell "moved" apart from "changed"; that needs element positions from the page (step 4).
+
+---
+
+## 6. What I'd do first
 
 A two-week prototype for steps 4 and 5, since that's where ShiroDiff can pull furthest ahead of pixel-only tools:
 1. Collect 20–30 real PRs with visual changes and write down what actually changed in each one.

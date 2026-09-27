@@ -1,0 +1,97 @@
+{
+  "width": 1440,
+  "height": 900,
+  "page": {
+    "pixelChange": 0.0154,
+    "pixelSim": 0.9873,
+    "ssim": 0.9609,
+    "composite": 0.9741
+  },
+  "regions": [
+    {
+      "id": 1,
+      "x": 279,
+      "y": 163,
+      "width": 882,
+      "height": 41,
+      "changedPixels": 9860,
+      "coverage": 0.27,
+      "meanDeltaE": 91.9,
+      "severity": 0.52,
+      "level": "needs review",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 2,
+      "x": 652,
+      "y": 280,
+      "width": 136,
+      "height": 48,
+      "changedPixels": 5962,
+      "coverage": 0.91,
+      "meanDeltaE": 160.9,
+      "severity": 0.96,
+      "level": "needs review",
+      "kind": "colour change",
+      "beforeColour": "#155dfc",
+      "afterColour": "#00a63e"
+    },
+    {
+      "id": 3,
+      "x": 524,
+      "y": 408,
+      "width": 17,
+      "height": 134,
+      "changedPixels": 234,
+      "coverage": 0.1,
+      "meanDeltaE": 9.5,
+      "severity": 0.06,
+      "level": "no meaningful change",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 4,
+      "x": 565,
+      "y": 408,
+      "width": 261,
+      "height": 134,
+      "changedPixels": 2178,
+      "coverage": 0.06,
+      "meanDeltaE": 46.1,
+      "severity": 0.23,
+      "level": "minor",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 5,
+      "x": 862,
+      "y": 408,
+      "width": 13,
+      "height": 134,
+      "changedPixels": 226,
+      "coverage": 0.13,
+      "meanDeltaE": 9.5,
+      "severity": 0.07,
+      "level": "no meaningful change",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 6,
+      "x": 899,
+      "y": 408,
+      "width": 271,
+      "height": 134,
+      "changedPixels": 1548,
+      "coverage": 0.04,
+      "meanDeltaE": 47,
+      "severity": 0.19,
+      "level": "minor",
+      "kind": "text or layout change"
+    }
+  ],
+  "verdict": {
+    "level": "needs review",
+    "worstRegion": 2,
+    "severity": 0.96
+  }
+}
