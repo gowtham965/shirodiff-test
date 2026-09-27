@@ -36,6 +36,11 @@ export default function Home() {
           </div>
         ))}
       </section>
+
+      <section id="pricing" className="mt-[700px] rounded-xl bg-zinc-900 p-10 text-center text-white">
+        <h2 className="mb-2 text-3xl font-bold">Pricing</h2>
+        <p className="text-zinc-300">Free while in beta.</p>
+      </section>
     </main>
   );
 }
