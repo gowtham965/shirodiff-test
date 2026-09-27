@@ -4,7 +4,7 @@ Hi Tarunya,
 
 I'm Gowtham, an engineer moving into AI engineering. Before our call I installed ShiroDiff on this repo and ran it on a real pull request. This README covers what I saw, what I'd improve, and how I could help build and scale it.
 
-**Short version:** ShiroDiff gets the hard part right: setup takes 30 seconds and a PR gets a report within a minute. What limits it now is the quality of the signal (the score passed a PR that changed the main button's colour) and trust (it runs unknown code and needs write access). Below is a step-by-step plan for both, and how I'd help build it.
+**Short version:** ShiroDiff gets the hard part right: setup takes 30 seconds and a PR gets a report within a minute. What limits it now is the quality of the signal (the composite score rated a PR that changed the main button's colour as "usually safe") and trust (it runs unknown code and needs write access). Below is a step-by-step plan for both, and how I'd help build it.
 
 ---
 
@@ -39,7 +39,7 @@ It caught all three changes. This is one PR on one page, so treat these as first
 
 ## 2. What I noticed
 
-1. **The score would have let this PR through.** Your README calls a composite above 95% "usually safe", and this PR scored 97.38% even though the main call-to-action button changed colour completely. Changes that matter most often cover few pixels, so any score based on "how much of the page changed" will underrate them.
+1. **The composite score says this PR is safe.** The comment correctly shows 🔴 Changed, but your README says a composite above 95% is "usually safe" for pass/fail decisions, and this PR scored 97.38% even though the main call-to-action button changed colour completely. Changes that matter most often cover few pixels, so any score based on "how much of the page changed" will underrate them.
 2. **A moved element looks the same as a changed one.** The cards shifted 16px sideways, and the diff paints both cards red as if their content had changed. The old and new headline text also overlap in red, which is hard to read. A reviewer has to open the before and after images and compare them by eye, which is the work the tool is meant to save.
 3. **It needs write access to the repo.** Screenshots go to a `visualbot-assets` branch in my repo. Many companies won't give a new tool write access, even though read access would be enough if screenshots were stored elsewhere.
 4. **It builds and runs unknown code.** `npm install` can run any script in a repo's `package.json`. At scale, every run needs to be isolated from the others and from your servers.
@@ -150,7 +150,7 @@ To show the fix for point 1 is practical, I built a small tool ([`tools/region-s
 
 | | Today (whole page) | Region scoring |
 |---|---|---|
-| Verdict | 97.4% composite → **looks safe** | 🔴 **Needs review** |
+| Verdict | 🔴 Changed, but composite 97.4% → **"usually safe"** | 🔴 **Needs review** |
 | Button | lost in the average | Region 2, severity **0.96**: colour change `#155dfc` → `#00a63e` |
 | Headline | lost in the average | Region 1, severity **0.52**: text change |
 | Cards that only moved | shown fully red | 🟠 minor (0.19–0.23) or ✅ no meaningful change (0.06–0.07) |
@@ -163,13 +163,13 @@ Full output: [report.md](docs/pr-1/region-score/report.md). It runs in about 0.3
 
 To check it isn't tuned to a single case, I opened two more PRs: one harmless change and one real layout break.
 
-| PR | What changed | Should be | ShiroDiff today | Region scoring |
+| PR | What changed | Should be | ShiroDiff composite today | Region scoring |
 |---|---|---|---|---|
-| [#1](https://github.com/gowtham965/shirodiff-test/pull/1) | Button colour, headline text, card spacing | Needs review | 97.38% → looks safe ❌ | 🔴 Needs review (0.96) ✅ |
-| [#2](https://github.com/gowtham965/shirodiff-test/pull/2) | Card borders one shade darker | Minor or none | ✅ No visual changes (99.91%) ✅ | ✅ No meaningful change ✅ |
-| [#3](https://github.com/gowtham965/shirodiff-test/pull/3) | Cards stack in one column instead of three (a broken layout) | Needs review | 96.93% → looks safe ❌ | 🔴 Needs review (0.53) ✅ |
+| [#1](https://github.com/gowtham965/shirodiff-test/pull/1) | Button colour, headline text, card spacing | Needs review | 🔴 Changed, but 97.38% → above the 95% "usually safe" line ❌ | 🔴 Needs review (0.96) ✅ |
+| [#2](https://github.com/gowtham965/shirodiff-test/pull/2) | Card borders one shade darker | Minor or none | ✅ No visual changes, 99.91% ✅ | ✅ No meaningful change ✅ |
+| [#3](https://github.com/gowtham965/shirodiff-test/pull/3) | Cards stack in one column instead of three (a broken layout) | Needs review | 🔴 Changed, but 96.93% → above the 95% "usually safe" line ❌ | 🔴 Needs review (0.53) ✅ |
 
-**PR #3 is the second real regression the whole-page score lets through.** Only 0.86% of pixels changed, because most of the page is white space, so the composite stays above 95% even though the layout is visibly broken.
+**PR #3 is the second real regression the composite rates as safe.** The comment does show 🔴 Changed, but only 0.86% of pixels changed, because most of the page is white space, so the composite stays above 95% even though the layout is visibly broken. A team using the composite for pass/fail, as your README suggests, would merge it.
 
 ![regions found in PR #3](docs/pr-3/region-score/annotated.png)
 
@@ -184,7 +184,7 @@ Region scoring gets the verdict right, but its explanation is messy: it reports 
 Until I have access to the code, I'd build each piece as a **standalone tool that works on what ShiroDiff already produces** (its screenshots on the `visualbot-assets` branch) or on my own Playwright screenshots, as the region-score prototype does. Then I'd show you the results and help plug it in.
 
 ### 1. Fix the score problem ✅ prototype done
-- **Done:** [`tools/region-score`](tools/region-score). On PR #1 it turns "97.4%, looks safe" into "needs review: the button changed colour".
+- **Done:** [`tools/region-score`](tools/region-score). On PR #1 it turns a 97.4% composite ("usually safe") into "needs review: the button changed colour".
 - **Done:** tested on two more PRs, one harmless and one broken layout (see section 5). It gets all three verdicts right, and it caught a second regression the whole-page score missed (PR #3).
 - **Next:** tune the thresholds on a larger set of real PRs, not hand-picked ones.
 
