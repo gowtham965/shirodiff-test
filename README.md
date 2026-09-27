@@ -4,7 +4,7 @@ Hi Tarunya,
 
 I'm Gowtham, an engineer moving into AI engineering. Before our call I installed ShiroDiff on this repo, ran it on five test PRs, and built a small prototype for the gaps I found.
 
-**Short version:** ShiroDiff needs no config, and PR #1's full report arrived 40 seconds after I opened the PR. In my tests, the composite score rated two clearly visible changes above its 95% "usually safe" line, and a new section added at the bottom of a page scored 100%. My prototype flags all three.
+**Short version:** ShiroDiff needs no config, and PR #1's full report arrived 40 seconds after I opened the PR. In my tests, the composite score rated two clearly visible changes (PR #1 and PR #3) above its 95% "usually safe" line, and a new section added at the bottom of a page (PR #4) scored 100%. My prototype marks all three of these PRs as "needs review".
 
 ---
 
