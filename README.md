@@ -45,7 +45,7 @@ On PR #1 it finds the button (severity 0.96, `#155dfc` → `#00a63e`) and the he
 
 1. **Better signal (prototype done):** tune region scoring on a larger set of real PRs, then weight important areas (buttons, headlines, above the fold) more heavily.
 2. **Say what changed, not just where:** use Playwright to record each element's position, size, text and styles in both versions, then report "button: blue → green" or "cards moved 16px", and tell a moved element apart from a changed one. *About a weekend.*
-3. **AI summaries, measured properly:** send a vision model the region crops *plus* the measured facts, so it describes real changes instead of guessing. Return fixed-format JSON. Build a test set of PRs with known answers first, and measure how many real changes it catches and how many it makes up. If the AI call fails, still post the normal report. Rough cost: under 4¢ per PR, depending on the model. *About a week.*
+3. **AI summaries, measured properly:** send a vision model the region crops *plus* the measured facts, so it describes real changes instead of guessing. Return fixed-format JSON. Build a test set of PRs with known answers first, and measure how many real changes it catches and how many it makes up. If the AI call fails, still post the normal report. *About a week.*
 4. **More repos:** detect Vite, Remix and monorepos (apps in `frontend/` or `apps/web`), and add an optional `.shirodiff.yml` for pages, env vars and logins, since most real apps won't start without them.
 5. **Reliable, cheaper runs:** a durable job queue (if it isn't one already), throwaway containers with time and CPU limits, GitHub pass/fail checks, cached dependencies, and screenshotting Vercel/Netlify preview links instead of building.
 6. **Trust and growth:** read-only access by storing screenshots on your side, a short security page, and a "Powered by ShiroDiff" link in every comment.
@@ -56,7 +56,7 @@ On PR #1 it finds the button (severity 0.96, `#155dfc` → `#00a63e`) and the he
 
 ## How I made this
 
-I used AI for this work: [Claude Code](https://claude.com/claude-code), an AI coding assistant. It helped me set up the test repo and PRs, reverse-engineer how ShiroDiff calculates its scores, write the prototype and its tests, and draft this README. I decided what to test, installed ShiroDiff, directed each step and reviewed the results. Every ShiroDiff report and score here comes from actual runs; the AI summary cost is an estimate.
+I used AI for this work: [Claude Code](https://claude.com/claude-code), an AI coding assistant. It helped me set up the test repo and PRs, reverse-engineer how ShiroDiff calculates its scores, write the prototype and its tests, and draft this README. I decided what to test, installed ShiroDiff, directed each step and reviewed the results. Every ShiroDiff report and score here comes from actual runs.
 
 ---
 
