@@ -1,0 +1,45 @@
+{
+  "width": 1440,
+  "height": 1454,
+  "page": {
+    "pixelChange": 0.0691,
+    "pixelSim": 0.9377,
+    "ssim": 0.9295,
+    "composite": 0.9336
+  },
+  "regions": [
+    {
+      "id": 1,
+      "x": 472,
+      "y": 227,
+      "width": 497,
+      "height": 16,
+      "changedPixels": 2002,
+      "coverage": 0.25,
+      "meanDeltaE": 47.2,
+      "severity": 0.47,
+      "level": "needs review",
+      "kind": "text or layout change"
+    },
+    {
+      "id": 2,
+      "x": 232,
+      "y": 1242,
+      "width": 976,
+      "height": 148,
+      "changedPixels": 142629,
+      "coverage": 0.99,
+      "meanDeltaE": 91.5,
+      "severity": 0.99,
+      "level": "needs review",
+      "kind": "colour change",
+      "beforeColour": "#ffffff",
+      "afterColour": "#18181b"
+    }
+  ],
+  "verdict": {
+    "level": "needs review",
+    "worstRegion": 2,
+    "severity": 0.99
+  }
+}
