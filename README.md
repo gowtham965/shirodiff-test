@@ -45,7 +45,7 @@ It caught all three changes. This is one PR on one page, so treat these as first
 4. **It builds and runs unknown code.** `npm install` can run any script in a repo's `package.json`. At scale, every run needs to be isolated from the others and from your servers.
 5. **Small polish:** the PR comment is still signed "VisualBot", and the footer mentions scores "ported from GodComet's visual auditor".
 
-What already works well: setup takes 30 seconds with no config, it finds the pages to check automatically, the results come back fast, and the report arrives as a PR comment so every reviewer sees it.
+What already works well: setup takes 30 seconds with no config, it finds the pages to check automatically, it already does the slow work in the background (the "⏳ Analyzing…" comment appeared after 4 seconds and was replaced with the results about 36 seconds later), the results come back fast, and the report arrives as a PR comment so every reviewer sees it.
 
 ---
 
@@ -67,7 +67,8 @@ PR opened or updated
 These are ordered by what breaks first as more teams install it. Each step is a piece of work I could take on.
 
 ### Step 1: A safe, reliable runner
-- Put every webhook on a **job queue** and have workers process it, so traffic spikes wait in line instead of failing.
+- **Make sure the background work runs on a durable queue.** ShiroDiff already answers GitHub fast and builds in the background. What I can't see from outside is *how*. If builds run as tasks inside the web server, a burst of PRs lands on one machine, and a restart mid-build leaves PRs stuck on "Analyzing…" forever. A durable job queue with separate workers keeps jobs through restarts, retries failures, and lets you add workers as traffic grows. If this is already in place, this step is done.
+- Handle stuck jobs: if a build hangs or a worker dies, time it out and update the PR comment with a clear error instead of leaving "Analyzing…" up.
 - Run each build in a **fresh container that is deleted afterwards**, with CPU, memory and time limits, and with the network switched off once dependencies are installed.
 - Report a **GitHub check** (pending, pass or fail) alongside the comment, so teams can require it before merging.
 - Record, for every run, how long it took, whether it succeeded, and why it failed. This data should drive the rest of the roadmap.
@@ -113,6 +114,7 @@ A two-week prototype for steps 4 and 5, since that's where ShiroDiff can pull fu
 
 ## 6. Questions for our call
 
+- How are the background jobs run today: a separate queue and workers, or tasks inside the web server? What happens to a PR if the server restarts mid-build?
 - What share of runs fail today, and what are the top reasons?
 - How do you get runs down to about 40 seconds: warm machines, caching, or something else?
 - Where do builds run today, and how are they isolated from each other?
