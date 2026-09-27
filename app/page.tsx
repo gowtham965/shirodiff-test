@@ -18,17 +18,17 @@ export default function Home() {
 
       <section className="mb-20 text-center">
         <h1 className="mb-4 text-5xl font-bold tracking-tight">
-          Ask the Python docs anything
+          Ask the Python docs, get cited answers
         </h1>
         <p className="mb-8 text-lg text-zinc-600">
           A tiny demo page used to try out visual diffs on pull requests.
         </p>
-        <button className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white">
+        <button className="rounded-lg bg-green-600 px-6 py-3 font-medium text-white">
           Get started
         </button>
       </section>
 
-      <section id="features" className="grid gap-6 sm:grid-cols-3">
+      <section id="features" className="grid gap-10 sm:grid-cols-3">
         {features.map((f) => (
           <div key={f.title} className="rounded-xl border border-zinc-200 p-6">
             <h2 className="mb-2 text-lg font-semibold">{f.title}</h2>
