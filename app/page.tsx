@@ -20,7 +20,7 @@ export default function Home() {
         <h1 className="mb-4 text-5xl font-bold tracking-tight">
           Ask the Python docs anything
         </h1>
-        <p className="mb-8 text-lg text-zinc-600">
+        <p className="mb-8 text-lg text-zinc-600"
           A tiny demo page used to try out visual diffs on pull requests.
         </p>
         <button className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white">
