@@ -66,3 +66,5 @@ I used AI for this work: [Claude Code](https://claude.com/claude-code), an AI co
 Thanks for reading. I'd love to help build this.
 
 **Gowtham Gowda** · [github.com/gowtham965](https://github.com/gowtham965)
+
+<sub>Test note: this line only exists to check how ShiroDiff handles README-only PRs.</sub>
