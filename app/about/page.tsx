@@ -1,7 +1,7 @@
 export default function About() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-16 font-sans">
-      <h1 className="mb-6 text-4xl font-bold tracking-tight">About DocsBot</h1>
+      <h1 className="mb-6 text-4xl font-bold tracking-tight">About DocsBot and its team</h1>
       <p className="mb-8 text-lg text-zinc-600">
         DocsBot answers questions about the Python standard library, with a link
         to the section each answer comes from.
