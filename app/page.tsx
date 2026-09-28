@@ -21,7 +21,7 @@ export default function Home() {
           Ask the Python docs anything
         </h1>
         <p className="mb-8 text-lg text-zinc-600">
-          A tiny demo page used to try out visual diffs on pull requests.
+          A tiny demo page used to test visual diffs on pull requests.
         </p>
         <button className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white">
           Get started
@@ -35,6 +35,11 @@ export default function Home() {
             <p className="text-zinc-600">{f.body}</p>
           </div>
         ))}
+      </section>
+
+      <section id="pricing" className="mt-[700px] rounded-xl bg-zinc-900 p-10 text-center text-white">
+        <h2 className="mb-2 text-3xl font-bold">Pricing</h2>
+        <p className="text-zinc-300">Free while in beta.</p>
       </section>
     </main>
   );
