@@ -1,0 +1,32 @@
+{
+  "width": 1440,
+  "height": 900,
+  "page": {
+    "pixelChange": 0.0569,
+    "pixelSim": 0.9891,
+    "ssim": 0.9914,
+    "composite": 0.9902
+  },
+  "regions": [
+    {
+      "id": 1,
+      "x": 361,
+      "y": 217,
+      "width": 718,
+      "height": 108,
+      "changedPixels": 73778,
+      "coverage": 0.95,
+      "meanDeltaE": 48.4,
+      "severity": 0.94,
+      "level": "needs review",
+      "kind": "colour change",
+      "beforeColour": "#ffffff",
+      "afterColour": "#fde68a"
+    }
+  ],
+  "verdict": {
+    "level": "needs review",
+    "worstRegion": 1,
+    "severity": 0.94
+  }
+}
