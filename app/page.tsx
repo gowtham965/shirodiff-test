@@ -5,6 +5,9 @@ const features = [
 ];
 
 export default function Home() {
+  if (!process.env.DOCSBOT_API_URL) {
+    throw new Error("DOCSBOT_API_URL is not set");
+  }
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-16 font-sans">
       <nav className="mb-16 flex items-center justify-between">
